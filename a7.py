@@ -12,12 +12,12 @@ def mf_park():
     raw = file.read()
     file.close()
 
-    pattern = re.compile(r'''(?xs)                            #Set flags: x: "verbose" aka ignore comments and whitespace
-                                                              #           s: "dotall" aka the dot char "." matches newlines
+    pattern = re.compile(r'''(?xs)                  #Set flags: x: "verbose" aka ignore comments and whitespace
+                                                    #           s: "dotall" aka the dot char "." matches newlines
     
                 (?<=(Produced\ by\ An\ Anonymous\ Volunteer))       #Lookbehind: Non-inclusive match
     
-                (.*?)                                                 #Non-greedy match all
+                (.*?)                                               #Non-greedy match all
     
                 (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of))
     
@@ -62,12 +62,12 @@ def persuasion():
     raw = file.read()
     file.close()
 
-    pattern = re.compile(r'''(?xs)                            #Set flags: x: "verbose" aka ignore comments and whitespace
-                                                                  #           s: "dotall" aka the dot char "." matches newlines
+    pattern = re.compile(r'''(?xs)                  #Set flags: x: "verbose" aka ignore comments and whitespace
+                                                    #           s: "dotall" aka the dot char "." matches newlines
 
                     (?<=(HTML\ version\nby\ Al\ Haines))       #Lookbehind: Non-inclusive match
 
-                    (.*?)                                                 #Non-greedy match all
+                    (.*?)                                      #Non-greedy match all
 
                     (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of))
 
@@ -113,6 +113,7 @@ austen_words.append(persuasion())
 austen_words.append(pride_and_prejudice())
 
 print(austen_words)
+
 
 
 
