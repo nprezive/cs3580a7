@@ -85,17 +85,61 @@ def pride_and_prejudice():
 
     raw = re.sub("('s)|[^a-zA-Z]|(Jane Austen)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    print(raw)
     words = raw.split()
     return words
+
+
+def aatm():
+    file = open('./Training/Verne/All_Around_the_Moon.txt', encoding='UTF-8')
+    raw = file.read()
+    file.close()
+    pattern = re.compile(r'''(?xs)      #Set flags: 
+                                        #x: "verbose" aka ignore comments and whitespace
+                                        #s: "dotall" aka the dot char "." matches newlines
+            (ALL\n\nAROUND\ THE\ MOON\n\nFROM\ THE\ FRENCH\ OF.*?)   #Non-greedy match all
+            (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of))
+        ''')
+
+    m = re.search(pattern, raw)
+    raw = m.group(0)
+
+    raw = re.sub("('s)|[^a-zA-Z]|(Jules Verne)", " ", raw)
+    raw = re.sub("\s+", " ", raw)
+    words = raw.split()
+    return words
+
+
+def ftettm():
+    file = open('./Training/Verne/From_the_Earth_to_the_Moon.txt', 
+            encoding='UTF-8')
+    raw = file.read()
+    file.close()
+    pattern = re.compile(r'''(?xs)      #Set flags: 
+                                        #x: "verbose" aka ignore comments and whitespace
+                                        #s: "dotall" aka the dot char "." matches newlines
+            (FROM\ THE\ EARTH\ TO\ THE\ MOON,\ DIRECT\ IN\ NINETY-SEVEN\ HOURS\nAND\ TWENTY\ MINUTES:\ AND\ A\ TRIP\ ROUND\ IT:\n\nby\n\nJULES\ VERNE.*?)   #Non-greedy match all
+            (?=(Transcriber's\ note:\n\nMinor\ inconsistencies\ in\ the\ spelling))
+        ''')
+
+    m = re.search(pattern, raw)
+    raw = m.group(0)
+
+    raw = re.sub("('s)|[^a-zA-Z]|(Jules Verne)", " ", raw)
+    raw = re.sub("\s+", " ", raw)
+    words = raw.split()
+    return words
+
 
 
 austen_words.append(mf_park())
 austen_words.append(n_abbey())
 austen_words.append(persuasion())
 austen_words.append(pride_and_prejudice())
+verne_words.append(aatm())
+verne_words.append(aatm())
 
-print(austen_words)
+print(verne_words[0:9])
+
 
 
 
