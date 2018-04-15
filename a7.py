@@ -130,13 +130,37 @@ def ftettm():
     return words
 
 
+def atwi8d():
+    file = open('./Training/Verne/Around_the_World.txt', 
+            encoding='UTF-8')
+    raw = file.read()
+    file.close()
+    pattern = re.compile(r'''(?xs)      #Set flags: 
+                                        #x: "verbose" aka ignore comments and whitespace
+                                        #s: "dotall" aka the dot char "." matches newlines
+            (AROUND\ THE\ WORLD\ IN\ EIGHTY\ DAYS\n\n\n\n
+            CONTENTS\n\n\nCHAPTER.*?)   #Non-greedy match all
+            (?=(End\ of\ Project\ Gutenberg's\ Around\ the\ World\ in\ 80\ Days))
+        ''')
+
+    m = re.search(pattern, raw)
+    raw = m.group(0)
+
+    raw = re.sub("('s)|[^a-zA-Z]|(Jules Verne)", " ", raw)
+    raw = re.sub("\s+", " ", raw)
+    words = raw.split()
+    return words
+
+
+
 
 austen_words.append(mf_park())
 austen_words.append(n_abbey())
 austen_words.append(persuasion())
 austen_words.append(pride_and_prejudice())
 verne_words.append(aatm())
-verne_words.append(aatm())
+verne_words.append(ftettm())
+verne_words.append(atwi8d())
 
 print(verne_words[0:9])
 
