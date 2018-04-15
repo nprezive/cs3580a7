@@ -11,17 +11,12 @@ def mf_park():
     file = open('./Training/Austen/Mansfield_Park.txt', encoding='UTF-8')
     raw = file.read()
     file.close()
-
     pattern = re.compile(r'''(?xs)                  #Set flags: x: "verbose" aka ignore comments and whitespace
                                                     #           s: "dotall" aka the dot char "." matches newlines
-    
-                (?<=(Produced\ by\ An\ Anonymous\ Volunteer))       #Lookbehind: Non-inclusive match
-    
-                (.*?)                                               #Non-greedy match all
-    
-                (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of))
-    
-    ''')
+            (?<=(Produced\ by\ An\ Anonymous\ Volunteer))       #Lookbehind: Non-inclusive match
+            (.*?)                                               #Non-greedy match all
+            (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of))
+        ''')
 
     m = re.search(pattern, raw)
     raw = m.group(0)
@@ -37,15 +32,11 @@ def n_abbey():
     raw = file.read()
     file.close()
 
-    pattern = re.compile(r'''(?xs)                            #Set flags: x: "verbose" aka ignore comments and whitespace
-                                                                  #           s: "dotall" aka the dot char "." matches newlines
-
-                    (?<=(Produced\ by\ An\ Anonymous\ Volunteer))       #Lookbehind: Non-inclusive match
-
-                    (.*?)                                                 #Non-greedy match all
-
-                    (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of))
-
+    pattern = re.compile(r'''(?xs)                  #Set flags: x: "verbose" aka ignore comments and whitespace
+                                                    #           s: "dotall" aka the dot char "." matches newlines
+            (?<=(Produced\ by\ An\ Anonymous\ Volunteer))       #Lookbehind: Non-inclusive match
+            (.*?)                                               #Non-greedy match all
+            (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of))
         ''')
 
     m = re.search(pattern, raw)
@@ -64,13 +55,9 @@ def persuasion():
 
     pattern = re.compile(r'''(?xs)                  #Set flags: x: "verbose" aka ignore comments and whitespace
                                                     #           s: "dotall" aka the dot char "." matches newlines
-
-                    (?<=(HTML\ version\nby\ Al\ Haines))       #Lookbehind: Non-inclusive match
-
-                    (.*?)                                      #Non-greedy match all
-
-                    (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of))
-
+            (?<=(HTML\ version\nby\ Al\ Haines))       #Lookbehind: Non-inclusive match
+            (.*?)                                      #Non-greedy match all
+            (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of))
         ''')
 
     m = re.search(pattern, raw)
@@ -89,11 +76,8 @@ def pride_and_prejudice():
 
     pattern = re.compile(r'''(?xs)                  #Set flags: x: "verbose" aka ignore comments and whitespace
                                                     #           s: "dotall" aka the dot char "." matches newlines
-
             (PRIDE\ AND\ PREJUDICE:[\n\r]+A\ Novel\.[\n\r]+In\ Three\ Volumes.*?)    #Non-greedy match all
-
             (?=(Transcriber's\ note:[\n\r]+Spelling\ and\ hyphen\ changes\ have\ been\ made\ so\ that\ there))
-
         ''')
 
     m = re.search(pattern, raw)
@@ -104,7 +88,6 @@ def pride_and_prejudice():
     print(raw)
     words = raw.split()
     return words
-
 
 
 austen_words.append(mf_park())
