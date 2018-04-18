@@ -175,6 +175,30 @@ def jttcote():
     return words
 
 
+def datwio():
+    file = open('./Training/Baum/Dorothy_and_the_Wizard_in_Oz.txt', 
+            encoding='UTF-8')
+    raw = file.read()
+    file.close()
+    pattern = re.compile(r'''(?xs)      #Set flags: 
+                                        #x: "verbose" aka ignore comments and whitespace
+                                        #s: "dotall" aka the dot char "." matches newlines
+            (TABLE OF CONTENTS\n\n
+            CHAPTER 1 MY UNCLE MAKES A GREAT DISCOVERY
+            .*?)   #Non-greedy match all
+            (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of\ A\ Journey\ to\ the\ Centre\ of\ the\ Earth,\ by))
+        ''')
+
+    m = re.search(pattern, raw)
+    raw = m.group(0)
+
+    raw = re.sub("('s)|[^a-zA-Z]|(Jules Verne)", " ", raw)
+    raw = re.sub("\s+", " ", raw)
+    words = raw.split()
+    return words
+
+
+
 
 austen_words.append(mf_park())
 austen_words.append(n_abbey())
