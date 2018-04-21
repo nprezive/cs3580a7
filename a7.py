@@ -7,6 +7,8 @@ austen_words = list()
 verne_words = list()
 baum_words = list()
 
+
+# Austen books
 def mf_park():
     file = open('./Training/Austen/Mansfield_Park.txt', encoding='UTF-8')
     raw = file.read()
@@ -89,6 +91,7 @@ def pride_and_prejudice():
     return words
 
 
+# Verne books
 def aatm():
     file = open('./Training/Verne/All_Around_the_Moon.txt', encoding='UTF-8')
     raw = file.read()
@@ -175,6 +178,7 @@ def jttcote():
     return words
 
 
+# Baum books
 def datwio():
     file = open('./Training/Baum/Dorothy_and_the_Wizard_in_Oz.txt', 
             encoding='UTF-8')
@@ -183,10 +187,10 @@ def datwio():
     pattern = re.compile(r'''(?xs)      #Set flags: 
                                         #x: "verbose" aka ignore comments and whitespace
                                         #s: "dotall" aka the dot char "." matches newlines
-            (TABLE OF CONTENTS\n\n
-            CHAPTER 1 MY UNCLE MAKES A GREAT DISCOVERY
+            (Dorothy and the Wizard in Oz\n\n\n
+            \ \ A Faithful Record of Their Amazing Adventures
             .*?)   #Non-greedy match all
-            (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of\ A\ Journey\ to\ the\ Centre\ of\ the\ Earth,\ by))
+            (?=(End\ of\ Project\ Gutenberg's\ Dorothy\ and\ the\ Wizard\ in\ Oz,\ by))
         ''')
 
     m = re.search(pattern, raw)
