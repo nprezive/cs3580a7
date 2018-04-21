@@ -187,8 +187,8 @@ def datwio():
     pattern = re.compile(r'''(?xs)      #Set flags: 
                                         #x: "verbose" aka ignore comments and whitespace
                                         #s: "dotall" aka the dot char "." matches newlines
-            (Dorothy and the Wizard in Oz\n\n\n
-            \ \ A Faithful Record of Their Amazing Adventures
+            (Dorothy\ and\ the\ Wizard\ in\ Oz\n\n\n
+            \ \ A\ Faithful\ Record\ of\ Their\ Amazing\ Adventures
             .*?)   #Non-greedy match all
             (?=(End\ of\ Project\ Gutenberg's\ Dorothy\ and\ the\ Wizard\ in\ Oz,\ by))
         ''')
@@ -196,11 +196,79 @@ def datwio():
     m = re.search(pattern, raw)
     raw = m.group(0)
 
-    raw = re.sub("('s)|[^a-zA-Z]|(Jules Verne)", " ", raw)
+    raw = re.sub("('s)|[^a-zA-Z]|(L. Frank Baum)|(Baum)", " ", raw)
     raw = re.sub("\s+", " ", raw)
     words = raw.split()
     return words
 
+
+def tecoz():
+    file = open('./Training/Baum/The_Emerald_City_of_Oz.txt', 
+            encoding='UTF-8')
+    raw = file.read()
+    file.close()
+    pattern = re.compile(r'''(?xs)      #Set flags: 
+                                        #x: "verbose" aka ignore comments and whitespace
+                                        #s: "dotall" aka the dot char "." matches newlines
+            (The Emerald City of Oz\n\n\n
+            by\n\n
+            L.\ Frank\ Baum
+            .*?)   #Non-greedy match all
+            (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of\ The\ Emerald\ City\ of\ Oz,\ by))
+        ''')
+
+    m = re.search(pattern, raw)
+    raw = m.group(0)
+
+    raw = re.sub("('s)|[^a-zA-Z]|(L. Frank Baum)|(Baum)", " ", raw)
+    raw = re.sub("\s+", " ", raw)
+    words = raw.split()
+    return words
+
+
+def ooz():
+    file = open('./Training/Baum/Ozma_of_Oz.txt', 
+            encoding='UTF-8')
+    raw = file.read()
+    file.close()
+    pattern = re.compile(r'''(?xs)      #Set flags: 
+                                        #x: "verbose" aka ignore comments and whitespace
+                                        #s: "dotall" aka the dot char "." matches newlines
+            (Ozma\ of\ Oz\n\n
+            \ \ A\ Record\ of\ Her\ Adventures\ with\ Dorothy\ Gale\ of\n\n\n
+            .*?)   #Non-greedy match all
+            (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of\ Ozma\ of\ Oz,\ by))
+        ''')
+
+    m = re.search(pattern, raw)
+    raw = m.group(0)
+
+    raw = re.sub("('s)|[^a-zA-Z]|(L. Frank Baum)|(Baum)", " ", raw)
+    raw = re.sub("\s+", " ", raw)
+    words = raw.split()
+    return words
+
+
+def twwoo():
+    file = open('./Training/Baum/The_Wonderful_Wizard_of_Oz.txt', 
+            encoding='UTF-8')
+    raw = file.read()
+    file.close()
+    pattern = re.compile(r'''(?xs)      #Set flags: 
+                                        #x: "verbose" aka ignore comments and whitespace
+                                        #s: "dotall" aka the dot char "." matches newlines
+            (The\ Wonderful\ Wizard\ of\ Oz\n\n\nby
+            .*?)   #Non-greedy match all
+            (?=(End\ of\ Project\ Gutenberg's\ The\ Wonderful\ Wizard\ of\ Oz,\ by))
+        ''')
+
+    m = re.search(pattern, raw)
+    raw = m.group(0)
+
+    raw = re.sub("('s)|[^a-zA-Z]|(L. Frank Baum)|(Baum)", " ", raw)
+    raw = re.sub("\s+", " ", raw)
+    words = raw.split()
+    return words
 
 
 
