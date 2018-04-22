@@ -163,8 +163,8 @@ def jttcote():
     pattern = re.compile(r'''(?xs)      #Set flags: 
                                         #x: "verbose" aka ignore comments and whitespace
                                         #s: "dotall" aka the dot char "." matches newlines
-            (TABLE OF CONTENTS\n\n
-            CHAPTER 1 MY UNCLE MAKES A GREAT DISCOVERY
+            (TABLE\ OF\ CONTENTS\n\n
+            CHAPTER\ 1\ MY\ UNCLE\ MAKES\ A\ GREAT\ DISCOVERY
             .*?)   #Non-greedy match all
             (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of\ A\ Journey\ to\ the\ Centre\ of\ the\ Earth,\ by))
         ''')
@@ -210,7 +210,7 @@ def tecoz():
     pattern = re.compile(r'''(?xs)      #Set flags: 
                                         #x: "verbose" aka ignore comments and whitespace
                                         #s: "dotall" aka the dot char "." matches newlines
-            (The Emerald City of Oz\n\n\n
+            (The\ Emerald\ City\ of\ Oz\n\n\n
             by\n\n
             L.\ Frank\ Baum
             .*?)   #Non-greedy match all
@@ -235,7 +235,7 @@ def ooz():
                                         #x: "verbose" aka ignore comments and whitespace
                                         #s: "dotall" aka the dot char "." matches newlines
             (Ozma\ of\ Oz\n\n
-            \ \ A\ Record\ of\ Her\ Adventures\ with\ Dorothy\ Gale\ of\n\n\n
+            \ \ A\ Record\ of\ Her\ Adventures\ with\ Dorothy\ Gale\ of
             .*?)   #Non-greedy match all
             (?=(End\ of\ the\ Project\ Gutenberg\ EBook\ of\ Ozma\ of\ Oz,\ by))
         ''')
