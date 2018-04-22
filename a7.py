@@ -276,11 +276,18 @@ austen_words.append(mf_park())
 austen_words.append(n_abbey())
 austen_words.append(persuasion())
 austen_words.append(pride_and_prejudice())
+
 verne_words.append(aatm())
 verne_words.append(ftettm())
 verne_words.append(atwi8d())
+verne_words.append(jttcote())
 
-print(verne_words[0:9])
+baum_words.append(datwio())
+baum_words.append(tecoz())
+baum_words.append(ooz())
+baum_words.append(twwoo())
+
+print(baum_words[:9])
 
 
 
