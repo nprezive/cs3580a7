@@ -3,10 +3,6 @@ import os
 import string
 from sklearn.feature_extraction import text
 
-austen_words = list()
-verne_words = list()
-baum_words = list()
-
 
 # Austen books
 def mf_park():
@@ -25,8 +21,8 @@ def mf_park():
 
     raw = re.sub("('s)|[^a-zA-Z]|(Jane Austen)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 def n_abbey():
@@ -46,8 +42,8 @@ def n_abbey():
 
     raw = re.sub("('s)|[^a-zA-Z]|(Jane Austen)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 def persuasion():
@@ -67,8 +63,8 @@ def persuasion():
 
     raw = re.sub("('s)|[^a-zA-Z]|(Jane Austen)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 def pride_and_prejudice():
@@ -87,8 +83,8 @@ def pride_and_prejudice():
 
     raw = re.sub("('s)|[^a-zA-Z]|(Jane Austen)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 # Verne books
@@ -108,8 +104,8 @@ def aatm():
 
     raw = re.sub("('s)|[^a-zA-Z]|(Jules Verne)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 def ftettm():
@@ -129,8 +125,8 @@ def ftettm():
 
     raw = re.sub("('s)|[^a-zA-Z]|(Jules Verne)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 def atwi8d():
@@ -151,8 +147,8 @@ def atwi8d():
 
     raw = re.sub("('s)|[^a-zA-Z]|(Jules Verne)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 def jttcote():
@@ -174,8 +170,8 @@ def jttcote():
 
     raw = re.sub("('s)|[^a-zA-Z]|(Jules Verne)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 # Baum books
@@ -198,8 +194,8 @@ def datwio():
 
     raw = re.sub("('s)|[^a-zA-Z]|(L. Frank Baum)|(Baum)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 def tecoz():
@@ -222,8 +218,8 @@ def tecoz():
 
     raw = re.sub("('s)|[^a-zA-Z]|(L. Frank Baum)|(Baum)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 def ooz():
@@ -245,13 +241,13 @@ def ooz():
 
     raw = re.sub("('s)|[^a-zA-Z]|(L. Frank Baum)|(Baum)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
 def twwoo():
     file = open('./Training/Baum/The_Wonderful_Wizard_of_Oz.txt', 
-            encoding='UTF-8')
+                encoding='UTF-8')
     raw = file.read()
     file.close()
     pattern = re.compile(r'''(?xs)      #Set flags: 
@@ -267,32 +263,21 @@ def twwoo():
 
     raw = re.sub("('s)|[^a-zA-Z]|(L. Frank Baum)|(Baum)", " ", raw)
     raw = re.sub("\s+", " ", raw)
-    words = raw.split()
-    return words
+    # words = raw.split()
+    return raw
 
 
+corpus = [mf_park(), n_abbey(), persuasion(), pride_and_prejudice(),
+          aatm(), ftettm(), atwi8d(), jttcote(),
+          datwio(), tecoz(), ooz(), twwoo()]
+# print(len(corpus))
 
-austen_words.append(mf_park())
-austen_words.append(n_abbey())
-austen_words.append(persuasion())
-austen_words.append(pride_and_prejudice())
+text_clf = Pipeline([('vect', CountVectorizer()),
+                     ('tfidf', TfidfTransformer()),
+                     ('clf', MultinomialNB()),
+])
 
-verne_words.append(aatm())
-verne_words.append(ftettm())
-verne_words.append(atwi8d())
-verne_words.append(jttcote())
+count_vect = text.CountVectorizer(min_df=10)
+X = count_vect.fit_transform(corpus)
+print(X.shape)
 
-baum_words.append(datwio())
-baum_words.append(tecoz())
-baum_words.append(ooz())
-baum_words.append(twwoo())
-
-print(baum_words[:9])
-
-
-
-
-
-## Form bag of words model using words used at least 10 times
-# vectorizer = text.CountVectorizer(min_df=10)
-# X = vectorizer.fit_transform(papersH+papersM+papersD).toarray()

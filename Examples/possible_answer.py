@@ -12,6 +12,7 @@ papersM = papers[1] # papers by Madison
 papersD = papers[2] # disputed papers
 
 nH, nM, nD = len(papersH), len(papersM), len(papersD)
+print(nH, nM, nD)
 
 # This allows you to ignore certain common words in English
 # You may want to experiment by choosing the second option or your own
@@ -25,22 +26,29 @@ stop_words = text.ENGLISH_STOP_WORDS.union({'HAMILTON','MADISON'})
 vectorizer = text.CountVectorizer(stop_words=stop_words,min_df=10)
 X = vectorizer.fit_transform(papersH+papersM+papersD).toarray()
 
-# Uncomment this line to see the full list of words remaining after filtering out 
+# Uncomment this line to see the full list of words remaining after filtering out
 # stop words and words used less than min_df times
 print(vectorizer.vocabulary_)
 
 # Split word counts into separate matrices
 XH, XM, XD = X[:nH,:], X[nH:nH+nM,:], X[nH+nM:,:]
 
+# print(XH, XM, XD)
+
 # Estimate probability of each word in vocabulary being used by Hamilton
 fH = []
 k = XH.sum(axis=0)
 total_sum = sum(k)
+print(XH)
+print(k)
+print(total_sum)
 
 for i in range(0,len(XH[1])):
     prob = ((k[i] + 1)/(float(total_sum + len(XH[1]))))
     fH.append(prob)
-    
+
+print(fH)
+
 
 # Estimate probability of each word in vocabulary being used by Madison
 fM = []
@@ -50,13 +58,13 @@ total_sum = sum(k)
 for i in range(0,len(XM[1])):
     prob = ((k[i] + 1)/float(total_sum + len(XM[1])))
     fM.append(prob)
-    
+
 
 # Compute ratio of these probabilities
 #fratio = fH/fM
 fratio = [a/b for a,b in zip(fH,fM)]
 
-# Compute prior probabilities 
+# Compute prior probabilities
 piH = len(XH)/float(len(X))
 piM = len(XM)/float(len(X))
 

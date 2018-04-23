@@ -14,7 +14,9 @@ categories = ['alt.atheism', 'soc.religion.christian',
 twenty_train = fetch_20newsgroups(subset='train',
     categories=categories, shuffle=True, random_state=42)
 
-#The returned dataset is a scikit-learn “bunch”: a simple holder object with fields that can be both accessed as python dict keys or object attributes for convenience, for instance the target_names holds the list of the requested category names:
+#The returned dataset is a scikit-learn “bunch”: a simple holder object with fields that can be both accessed as python
+# dict keys or object attributes for convenience, for instance the target_names holds the list of the requested category
+# names:
 print(twenty_train.target_names)
 
 print(len(twenty_train.data))
@@ -27,7 +29,9 @@ print("\n".join(twenty_train.data[0].split("\n")[:3]))
 print("\nThe category:")
 print(twenty_train.target_names[twenty_train.target[0]])
 
-#For speed and space efficiency reasons scikit-learn loads the target attribute as an array of integers that corresponds to the index of the category name in the target_names list. The category integer id of each sample is stored in the target attribute:
+#For speed and space efficiency reasons scikit-learn loads the target attribute as an array of integers that corresponds
+#  to the index of the category name in the target_names list. The category integer id of each sample is stored in the
+# target attribute:
 print("\n\nexample categories in dataset:")
 print(twenty_train.target[:10])
 
@@ -41,34 +45,45 @@ for t in twenty_train.target[:10]:
 #Bags of Words:
 #The most intuitive way to do so is the bags of words representation:
 
-#        assign a fixed integer id to each word occurring in any document of the training set (for instance by building a dictionary from words to integer indices).
-#        for each document #i, count the number of occurrences of each word w and store it in X[i, j] as the value of feature #j where j is the index of word w in the dictionary
+#        assign a fixed integer id to each word occurring in any document of the training set (for instance by building
+# a dictionary from words to integer indices).
+#        for each document #i, count the number of occurrences of each word w and store it in X[i, j] as the value of
+# feature #j where j is the index of word w in the dictionary
 
-#The bags of words representation implies that n_features is the number of distinct words in the corpus: this number is typically larger than 100,000.
+#The bags of words representation implies that n_features is the number of distinct words in the corpus: this number is
+# typically larger than 100,000.
 
-#If n_samples == 10000, storing X as a numpy array of type float32 would require 10000 x 100000 x 4 bytes = 4GB in RAM which is barely manageable on today’s computers.
+#If n_samples == 10000, storing X as a numpy array of type float32 would require 10000 x 100000 x 4 bytes = 4GB in RAM
+# which is barely manageable on today’s computers.
 
-#Fortunately, most values in X will be zeros since for a given document less than a couple thousands of distinct words will be used. For this reason we say that bags of words are typically high-dimensional sparse datasets. We can save a lot of memory by only storing the non-zero parts of the feature vectors in memory.
+#Fortunately, most values in X will be zeros since for a given document less than a couple thousands of distinct words
+# will be used. For this reason we say that bags of words are typically high-dimensional sparse datasets. We can save a
+# lot of memory by only storing the non-zero parts of the feature vectors in memory.
 
 #scipy.sparse matrices are data structures that do exactly this, and scikit-learn has built-in support for these structures.
 
-#Text preprocessing, tokenizing and filtering of stopwords are included in a high level component that is able to build a dictionary of features and transform documents to feature vectors:
+#Text preprocessing, tokenizing and filtering of stopwords are included in a high level component that is able to build
+# a dictionary of features and transform documents to feature vectors:
 count_vect = CountVectorizer()
 X_train_counts = count_vect.fit_transform(twenty_train.data)
 print("\nThe size of the count vector:")
 print(X_train_counts.shape)
 
-print("\nCountVectorizer supports counts of N-grams of words or consecutive characters. Once fitted, the vectorizer has built a dictionary of feature indices:")
+print("\nCountVectorizer supports counts of N-grams of words or consecutive characters. Once fitted, the vectorizer has "
+      "built a dictionary of feature indices:")
 print("For example, how often does 'algorithm' show up?")
 print(count_vect.vocabulary_.get(u'algorithm'))
 
 
 #From occurrences to frequencies:
-#Occurrence count is a good start but there is an issue: longer documents will have higher average count values than shorter documents, even though they might talk about the same topics.
+#Occurrence count is a good start but there is an issue: longer documents will have higher average count values than
+# shorter documents, even though they might talk about the same topics.
 
-#To avoid these potential discrepancies it suffices to divide the number of occurrences of each word in a document by the total number of words in the document: these new features are called tf for Term Frequencies.
+#To avoid these potential discrepancies it suffices to divide the number of occurrences of each word in a document by
+# the total number of words in the document: these new features are called tf for Term Frequencies.
 
-#Another refinement on top of tf is to downscale weights for words that occur in many documents in the corpus and are therefore less informative than those that occur only in a smaller portion of the corpus.
+#Another refinement on top of tf is to downscale weights for words that occur in many documents in the corpus and are
+# therefore less informative than those that occur only in a smaller portion of the corpus.
 
 #This downscaling is called tf–idf for “Term Frequency times Inverse Document Frequency”.
 
@@ -80,11 +95,15 @@ print("The shape of 'X_train_tfidf':")
 print(X_train_tfidf.shape)
 
 
-#Now that we have our features, we can train a classifier to try to predict the category of a post. Let’s start with a naïve Bayes classifier, which provides a nice baseline for this task. scikit-learn includes several variants of this classifier; the one most suitable for word counts is the multinomial variant:
+#Now that we have our features, we can train a classifier to try to predict the category of a post. Let’s start with a
+# naïve Bayes classifier, which provides a nice baseline for this task. scikit-learn includes several variants of this
+# classifier; the one most suitable for word counts is the multinomial variant:
 clf = MultinomialNB().fit(X_train_tfidf, twenty_train.target)
 
 
-#To try to predict the outcome on a new document we need to extract the features using almost the same feature extracting chain as before. The difference is that we call transform instead of fit_transform on the transformers, since they have already been fit to the training set:
+#To try to predict the outcome on a new document we need to extract the features using almost the same feature
+# extracting chain as before. The difference is that we call transform instead of fit_transform on the transformers,
+# since they have already been fit to the training set:
 docs_new = ['God is love', 'OpenGL on the GPU is fast']
 X_new_counts = count_vect.transform(docs_new)
 X_new_tfidf = tfidf_transformer.transform(X_new_counts)
@@ -95,7 +114,8 @@ for doc, category in zip(docs_new, predicted):
     print('%r => %s' % (doc, twenty_train.target_names[category]))
 
 
-#n order to make the vectorizer => transformer => classifier easier to work with, scikit-learn provides a Pipeline class that behaves like a compound classifier:
+#n order to make the vectorizer => transformer => classifier easier to work with, scikit-learn provides a Pipeline
+# class that behaves like a compound classifier:
 text_clf = Pipeline([('vect', CountVectorizer()),
                      ('tfidf', TfidfTransformer()),
                      ('clf', MultinomialNB()),
