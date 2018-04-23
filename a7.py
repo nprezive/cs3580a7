@@ -269,6 +269,20 @@ def twwoo():
     return raw
 
 
+def readTestFile():
+    success = False
+    while not success:
+        try:
+            file_name = input('Please enter the file name of a book to predict:')
+            file = open('./' + file_name)
+            raw = file.read()
+            file.close()
+            success = True
+            return raw
+        except:
+            print('File not found!')
+
+
 corpus_data = [mf_park(), n_abbey(), persuasion(), pride_and_prejudice(),
           aatm(), ftettm(), atwi8d(), jttcote(),
           datwio(), tecoz(), ooz(), twwoo()]
@@ -285,5 +299,17 @@ text_clf = Pipeline([('vect', text.CountVectorizer()),
 
 text_clf.fit(corpus_data, corpus_target)
 
-print('Please enter the file name of a book to predict:')
+repeat = True
+while repeat:
+    test_file = readTestFile()
+    predicted = text_clf.predict([test_file])
+    print("The author is... " + corpus_target_names[predicted[0]] + "!")
+
+    while True:
+        again = input("Another book?: (y/n) ")
+        if again.lower() == 'y':
+            break
+        elif again.lower() == 'n':
+            repeat = False
+            break
 
