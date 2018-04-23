@@ -2,6 +2,8 @@ import re
 import os
 import string
 from sklearn.feature_extraction import text
+from sklearn.pipeline import Pipeline
+from sklearn.naive_bayes import MultinomialNB
 
 
 # Austen books
@@ -267,17 +269,21 @@ def twwoo():
     return raw
 
 
-corpus = [mf_park(), n_abbey(), persuasion(), pride_and_prejudice(),
+corpus_data = [mf_park(), n_abbey(), persuasion(), pride_and_prejudice(),
           aatm(), ftettm(), atwi8d(), jttcote(),
           datwio(), tecoz(), ooz(), twwoo()]
-# print(len(corpus))
+corpus_target = [0,0,0,0,
+                 1,1,1,1,
+                 2,2,2,2]
+corpus_target_names = ['Austen', 'Verne', 'Baum']
 
-text_clf = Pipeline([('vect', CountVectorizer()),
-                     ('tfidf', TfidfTransformer()),
+
+text_clf = Pipeline([('vect', text.CountVectorizer()),
+                     ('tfidf', text.TfidfTransformer()),
                      ('clf', MultinomialNB()),
 ])
 
-count_vect = text.CountVectorizer(min_df=10)
-X = count_vect.fit_transform(corpus)
-print(X.shape)
+text_clf.fit(corpus_data, corpus_target)
+
+print('Please enter the file name of a book to predict:')
 

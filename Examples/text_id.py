@@ -121,7 +121,8 @@ text_clf = Pipeline([('vect', CountVectorizer()),
                      ('clf', MultinomialNB()),
 ])
 
-#The names vect, tfidf and clf (classifier) are arbitrary. We shall see their use in the section on grid search, below. We can now train the model with a single command:
+#The names vect, tfidf and clf (classifier) are arbitrary. We shall see their use in the section on grid search, below.
+# We can now train the model with a single command:
 text_clf.fit(twenty_train.data, twenty_train.target)
 
 
@@ -141,7 +142,9 @@ print(metrics.classification_report(twenty_test.target, predicted,
     target_names=twenty_test.target_names))
 
 
-#Let’s see if we can do better with a linear support vector machine (SVM), which is widely regarded as one of the best text classification algorithms (although it’s also a bit slower than naïve Bayes). We can change the learner by just plugging a different classifier object into our pipeline:
+#Let’s see if we can do better with a linear support vector machine (SVM), which is widely regarded as one of the best
+# text classification algorithms (although it’s also a bit slower than naïve Bayes). We can change the learner by just
+# plugging a different classifier object into our pipeline:
 text_clf = Pipeline([('vect', CountVectorizer()),
                      ('tfidf', TfidfTransformer()),
                      ('clf', SGDClassifier(loss='hinge', penalty='l2',
